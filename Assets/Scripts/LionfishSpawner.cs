@@ -1,0 +1,73 @@
+using UnityEngine;
+
+public class LionfishSpawner : MonoBehaviour
+{
+    public GameObject lionfishPrefab;
+    private BoxCollider2D spawnArea;
+
+    public float spawnInterval = 1f;
+    public int maxLionfish = 40;
+    public int minLionfish = 3;
+
+    private int currentLionfishCount = 0;
+
+    void Awake()
+    {
+        spawnArea = GetComponent<BoxCollider2D>();
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        InvokeRepeating("SpawnLionfish", 1f, spawnInterval); // checks every 1 second if we need to spawn a lionfish
+    }
+
+    void SpawnLionfish()
+    {
+        // lionfish breeding is handled by the lionfish themselves
+        // this just ensures that there are at least a couple of lionfish in the game
+        Debug.Log("Current Lionfish Count: " + currentLionfishCount);
+
+        if (currentLionfishCount < minLionfish)
+        {
+            Bounds bounds = spawnArea.bounds;
+            float randomX = Random.Range(bounds.min.x, bounds.max.x);
+            float randomY = Random.Range(bounds.min.y, bounds.max.y);
+
+            Vector2 spawnPosition = new Vector2(randomX, randomY);
+
+            GameObject newFish = Instantiate(lionfishPrefab, spawnPosition, Quaternion.identity);
+
+            IncreaseCount();
+
+            newFish.GetComponent<Lionfish>().spawner = this; // set the spawner reference for the new lionfish
+        } 
+
+    }
+
+    public int getCurrentLionfishCount()
+    {
+        return currentLionfishCount;
+    }
+
+    public void DecreaseCount()
+    {
+        currentLionfishCount--;
+    }
+
+    public void IncreaseCount()
+    {
+        currentLionfishCount++;
+    }
+
+    public Bounds getBounds()
+    {
+        return spawnArea.bounds;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}
