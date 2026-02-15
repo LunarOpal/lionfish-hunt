@@ -9,7 +9,7 @@ public class Lionfish : MonoBehaviour
     public float speed = 2f;
     public int points = 1;
     public float breedProb = 0.3f;
-    private Transform player;
+
     private float timer = 0f;
     private int swimDirection = 0;
     private float swimDuration = 1f;
@@ -19,7 +19,6 @@ public class Lionfish : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         timer = Random.Range(0f, breedInterval - 1); // randomize initial breeding interval
     }
 

@@ -3,6 +3,7 @@ using UnityEngine;
 public class LionfishSpawner : MonoBehaviour
 {
     public GameObject lionfishPrefab;
+    private GameManager gameManager;
     private BoxCollider2D spawnArea;
 
     public float spawnInterval = 1f;
@@ -14,6 +15,7 @@ public class LionfishSpawner : MonoBehaviour
     void Awake()
     {
         spawnArea = GetComponent<BoxCollider2D>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,7 +43,9 @@ public class LionfishSpawner : MonoBehaviour
             IncreaseCount();
 
             newFish.GetComponent<Lionfish>().spawner = this; // set the spawner reference for the new lionfish
-        } 
+        }
+
+
 
     }
 
@@ -53,11 +57,18 @@ public class LionfishSpawner : MonoBehaviour
     public void DecreaseCount()
     {
         currentLionfishCount--;
+        gameManager.increaseKillCount();
+
+        // updates the environmental meter based on current number of fish
+        gameManager.updateEnvironmentCount(currentLionfishCount);
     }
 
     public void IncreaseCount()
     {
         currentLionfishCount++;
+
+        // updates the environmental meter based on current number of fish
+        gameManager.updateEnvironmentCount(currentLionfishCount);
     }
 
     public Bounds getBounds()

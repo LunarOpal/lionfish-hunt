@@ -142,4 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652541b46f691974eb31639e090fad37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lionfish
+  breedInterval: 5
   speed: 2
+  points: 1
+  breedProb: 0.3
+  spawner: {fileID: 2525454442115971432, guid: 89cca10b4b8cb74499cc1c783de8f43a, type: 3}
