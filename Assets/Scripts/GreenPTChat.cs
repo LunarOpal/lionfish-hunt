@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Text;
 
@@ -38,7 +39,7 @@ public class GreenPTChat : MonoBehaviour
     public GameObject messagePrefab;
 
     [Header("GreenPT Config")]
-    
+
     private string apiKey = Secrets.GreenPTApiKey; 
     
     // TODO: Check hackathon docs for the specific URL. It is likely this one:
