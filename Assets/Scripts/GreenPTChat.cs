@@ -61,7 +61,7 @@ public class GreenPTChat : MonoBehaviour
     {
         // 1. Setup the data object
         RequestBody req = new RequestBody();
-        req.model = "greenpt-flash"; // Check docs for model name (e.g., "mistral-small" or "greenpt-flash")
+        req.model = "green-l-raw"; // Check docs for model name (e.g., "mistral-small" or "greenpt-flash")
         req.messages = new List<Message>();
 
         // System prompt (The "Context")
