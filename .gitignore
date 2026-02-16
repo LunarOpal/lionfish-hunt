@@ -100,4 +100,4 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 # Ignore the secrets file so the API Key never goes to GitHub
-/[Aa]ssets/[Ss]cripts/Secrets.cs
+/[Aa]ssets/[Ss]cripts/Secrets.cs*
