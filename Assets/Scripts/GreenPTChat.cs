@@ -22,7 +22,7 @@ public class GreenPTChat : MonoBehaviour
         if (string.IsNullOrEmpty(playerInput.text)) return;
 
         string userText = playerInput.text;
-        CreateBubble("Player: " + userText, Color.white);
+        CreateBubble("Player: " + userText, Color.black);
         playerInput.text = "";
 
         // OFFLINE MODE: Toggle between these for testing
