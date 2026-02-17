@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public Transform AttackPoint;
     public float attackRange = 2.5f;
+    public LayerMask lionfishLayer;
     private PlayerMovement movement;
 
     void Awake()
@@ -18,12 +20,18 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // left mouse button
+        //if (Input.GetMouseButtonDown(0)) // left mouse button
+        //{
+        //    TryAttack();
+        //}
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            TryAttack();
+            TryAttackKey();
         }
     }
 
+    // mouse attack deprecated
     void TryAttack()
     {
         // transform mouse position from screen to world coordinates
@@ -50,5 +58,25 @@ public class PlayerAttack : MonoBehaviour
         }
 
 
+    }
+
+    void TryAttackKey()
+    {
+        Collider2D hitEnemy = Physics2D.OverlapCircle(AttackPoint.position, attackRange, lionfishLayer);
+
+        if (hitEnemy != null)
+        {
+            hitEnemy.GetComponent<Lionfish>().Die();
+        }
+
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (AttackPoint == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(AttackPoint.position, attackRange);
+        
     }
 }

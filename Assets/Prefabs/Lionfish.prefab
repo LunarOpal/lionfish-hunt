@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4203354463090163918}
   - component: {fileID: 8613663959967781683}
   - component: {fileID: 3753473519784672940}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Lionfish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.07632948, y: 0.0038163757}
+  m_Offset: {x: 0, y: 0}
   m_Size: {x: 2.127351, y: 1.7333994}
   m_Direction: 1
 --- !u!114 &3753473519784672940
