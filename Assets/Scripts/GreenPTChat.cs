@@ -1,75 +1,129 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Text;
 
+[System.Serializable]
+public class Message
+{
+    public string role;
+    public string content;
+}
+
+[System.Serializable]
+public class RequestBody
+{
+    public string model;
+    public List<Message> messages;
+}
+
+[System.Serializable]
+public class ResponseRoot
+{
+    public List<Choice> choices;
+}
+
+[System.Serializable]
+public class Choice
+{
+    public Message message;
+}
+
 public class GreenPTChat : MonoBehaviour
 {
     [Header("UI References")]
     public TMP_InputField playerInput;
     public Transform chatContent;
-    public GameObject messagePrefab; // A simple UI Text prefab
+    public GameObject messagePrefab;
 
-    [Header("API Config")]
-    private string apiKey = ""; // Leave empty per instructions
-    private string endpoint = "[https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent](https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent)";
+    [Header("GreenPT Config")]
 
-    // Call this from your "Ask" button
+    private string apiKey = Secrets.GreenPTApiKey; 
+    
+    // TODO: Check hackathon docs for the specific URL. It is likely this one:
+    private string apiUrl = "https://api.greenpt.ai/v1/chat/completions"; 
+
     public void SendChatMessage()
     {
         if (string.IsNullOrEmpty(playerInput.text)) return;
 
         string userText = playerInput.text;
-        CreateBubble("Player: " + userText, Color.white);
+        CreateBubble("Player: " + userText, new Color32(0, 68, 136, 255), Color.white, TextAlignmentOptions.MidlineRight);
         playerInput.text = "";
 
-        // OFFLINE MODE: Toggle between these for testing
-        StartCoroutine(MockResponse()); 
-        // StartCoroutine(PostToGreenPT(userText)); 
+        // Switch to the real API call now
+        StartCoroutine(PostToGreenPT(userText));
     }
 
     IEnumerator PostToGreenPT(string prompt)
     {
-        // System context to keep the AI focused on Lionfish
-        string systemPrompt = "You are an environmental expert helping players understand why lionfish are invasive in Florida.";
+        // 1. Setup the data object
+        RequestBody req = new RequestBody();
+        req.model = "green-l-raw"; // Check docs for model name (e.g., "mistral-small" or "greenpt-flash")
+        req.messages = new List<Message>();
+
+        // System prompt (The "Context")
+        req.messages.Add(new Message { role = "system", content = "You are an environmental expert regarding lionfish." });
         
-        // Construct the JSON (Simplified for Gemini API)
-        string json = "{\"contents\": [{\"parts\":[{\"text\":\"" + prompt + "\"}]}], \"systemInstruction\": {\"parts\": [{\"text\":\"" + systemPrompt + "\"}]}}";
-        
-        UnityWebRequest request = new UnityWebRequest($"{endpoint}?key={apiKey}", "POST");
+        // User prompt
+        req.messages.Add(new Message { role = "user", content = prompt });
+
+        // 2. Convert to JSON
+        string json = JsonUtility.ToJson(req);
+
+        // 3. Create Request
+        UnityWebRequest request = new UnityWebRequest(apiUrl, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
+        
+        // 4. Set Headers (Important for GreenPT/OpenAI style)
         request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + apiKey);
 
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            // Note: You'll need a JSON parser (like SimpleJSON) for the full response 
-            // but for now we'll just log the raw text
-            CreateBubble("GreenPT: " + request.downloadHandler.text, Color.green);
+            // Parse the response
+            ResponseRoot response = JsonUtility.FromJson<ResponseRoot>(request.downloadHandler.text);
+            if (response.choices != null && response.choices.Count > 0)
+            {
+                string aiText = response.choices[0].message.content;
+                CreateBubble("GreenPT: " + aiText, new Color32(32, 178, 170, 255), Color.black, TextAlignmentOptions.MidlineLeft);
+            }
         }
         else
         {
-            CreateBubble("GreenPT: (Offline) Lionfish are invasive because they have no natural predators in the Atlantic!", Color.cyan);
+            Debug.LogError("Error: " + request.error + " | " + request.downloadHandler.text);
+            CreateBubble("Error: " + request.error, Color.red, Color.white, TextAlignmentOptions.MidlineLeft);
         }
     }
 
-    // Use this while on the plane to test UI layout!
-    IEnumerator MockResponse()
+    // The "Upgraded" Bubble Maker
+    void CreateBubble(string msg, Color bubbleColor, Color textColor, TextAlignmentOptions alignment)
     {
-        yield return new WaitForSeconds(1);
-        CreateBubble("GreenPT: That's a great question about lionfish!", Color.green);
-    }
-
-    void CreateBubble(string msg, Color color)
-    {
+        // 1. Create the bubble object
         GameObject go = Instantiate(messagePrefab, chatContent);
+
+        // 2. Setup the Text (The words)
         TMP_Text text = go.GetComponentInChildren<TMP_Text>();
         text.text = msg;
-        text.color = color;
+        text.color = textColor;
+        text.alignment = alignment; // Aligns text Left or Right
+
+        // 3. Setup the Bubble (The background color)
+        // We look for the "Image" component which controls the sprite color
+        Image bubbleImage = go.GetComponentInChildren<Image>();
+        if (bubbleImage != null)
+        {
+            bubbleImage.color = bubbleColor;
+        }
+        
+        // 4. Force Unity to redraw the layout so it fits perfectly
+        LayoutRebuilder.ForceRebuildLayoutImmediate(go.GetComponent<RectTransform>());
     }
 }
