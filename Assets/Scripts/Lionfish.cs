@@ -14,12 +14,14 @@ public class Lionfish : MonoBehaviour
     private int swimDirection = 0;
     private float swimDuration = 1f;
     private float swimTimer = 0f;
+    private SpriteRenderer spriteRenderer;
 
     public LionfishSpawner spawner; // has the total count of lionfish
 
     void Start()
     {
         timer = Random.Range(0f, breedInterval - 1); // randomize initial breeding interval
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -51,21 +53,24 @@ public class Lionfish : MonoBehaviour
                     if (transform.position.x < bounds.min.x)
                     {
                         swimDirection = 1; // swim right if too far left
+                        spriteRenderer.flipX = true;
                     }
                     else if (transform.position.x > bounds.max.x)
                     {
-                        transform.position = new Vector2(bounds.max.x, transform.position.y);
                         swimDirection = -1; // swim left if too far right
+                        spriteRenderer.flipX = false;
                     }
                     
                     // otherwise randomize direction
                     else if (Random.Range(0, 2) == 1)
                     {
                         swimDirection = 1; // swim right
+                        spriteRenderer.flipX = true;
                     }
                     else
                     {
                         swimDirection = -1; // swim left
+                        spriteRenderer.flipX = false;
                     }
 
                     swimDuration = Random.Range(1f, breedInterval); // also randomize swim duration

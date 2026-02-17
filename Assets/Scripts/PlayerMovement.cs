@@ -21,10 +21,12 @@ public class PlayerMovement : MonoBehaviour
         if (movement.x > 0)
         {
             FacingDirection = 1; // facing right
+            transform.localScale = new Vector3(-1, 1, 1); // negative because default is facing left
         }
         else if (movement.x < 0)
         {
             FacingDirection = -1; // facing left
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
