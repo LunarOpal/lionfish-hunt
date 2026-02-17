@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ public class GreenPTChat : MonoBehaviour
         if (string.IsNullOrEmpty(playerInput.text)) return;
 
         string userText = playerInput.text;
-        CreateBubble("Player: " + userText, Color.black); // Changed to Black for visibility
+        CreateBubble("Player: " + userText, new Color32(0, 68, 136, 255), Color.white, TextAlignmentOptions.MidlineRight);
         playerInput.text = "";
 
         // Switch to the real API call now
@@ -92,22 +93,37 @@ public class GreenPTChat : MonoBehaviour
             if (response.choices != null && response.choices.Count > 0)
             {
                 string aiText = response.choices[0].message.content;
-                CreateBubble("GreenPT: " + aiText, new Color(0, 0.5f, 0)); // Dark Green text
+                CreateBubble("GreenPT: " + aiText, new Color32(32, 178, 170, 255), Color.black, TextAlignmentOptions.MidlineLeft);
             }
         }
         else
         {
             Debug.LogError("Error: " + request.error + " | " + request.downloadHandler.text);
-            CreateBubble("GreenPT: (Error) Could not reach server.", Color.red);
+            CreateBubble("Error: " + request.error, Color.red, Color.white, TextAlignmentOptions.MidlineLeft);
         }
     }
 
-    void CreateBubble(string msg, Color color)
+    // The "Upgraded" Bubble Maker
+    void CreateBubble(string msg, Color bubbleColor, Color textColor, TextAlignmentOptions alignment)
     {
+        // 1. Create the bubble object
         GameObject go = Instantiate(messagePrefab, chatContent);
-        // This assumes your Prefab has a TextMeshPro component directly on it or purely inside it
+
+        // 2. Setup the Text (The words)
         TMP_Text text = go.GetComponentInChildren<TMP_Text>();
         text.text = msg;
-        text.color = color;
+        text.color = textColor;
+        text.alignment = alignment; // Aligns text Left or Right
+
+        // 3. Setup the Bubble (The background color)
+        // We look for the "Image" component which controls the sprite color
+        Image bubbleImage = go.GetComponentInChildren<Image>();
+        if (bubbleImage != null)
+        {
+            bubbleImage.color = bubbleColor;
+        }
+        
+        // 4. Force Unity to redraw the layout so it fits perfectly
+        LayoutRebuilder.ForceRebuildLayoutImmediate(go.GetComponent<RectTransform>());
     }
 }
