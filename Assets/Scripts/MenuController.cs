@@ -8,8 +8,12 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
     }
 
+    public void LoadGameScreen() {
+        SceneManager.LoadScene("GameScene");
+    }
+
     // Call this from the Title Screen "Play" button
-    public void StartGame() {
+    public void IncrementScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
