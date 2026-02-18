@@ -42,9 +42,9 @@ public class GreenPTChat : MonoBehaviour
     [Header("GreenPT Config")]
 
     private string apiKey = Secrets.GreenPTApiKey; 
-    
-    // TODO: Check hackathon docs for the specific URL. It is likely this one:
     private string apiUrl = "https://api.greenpt.ai/v1/chat/completions"; 
+
+    private GameObject currentLoadingBubble;
 
     public void SendChatMessage()
     {
@@ -53,6 +53,8 @@ public class GreenPTChat : MonoBehaviour
         string userText = playerInput.text;
         CreateBubble("Player: " + userText, new Color32(0, 68, 136, 255), Color.white, TextAlignmentOptions.MidlineRight);
         playerInput.text = "";
+
+        currentLoadingBubble = CreateBubble("GreenPT: Thinking...", new Color32(32, 178, 170, 150), Color.black, TextAlignmentOptions.MidlineLeft);
 
         // Switch to the real API call now
         StartCoroutine(PostToGreenPT(userText));
@@ -86,6 +88,11 @@ public class GreenPTChat : MonoBehaviour
 
         yield return request.SendWebRequest();
 
+        if (currentLoadingBubble != null)
+        {
+            Destroy(currentLoadingBubble);
+        }
+
         if (request.result == UnityWebRequest.Result.Success)
         {
             // Parse the response
@@ -104,26 +111,36 @@ public class GreenPTChat : MonoBehaviour
     }
 
     // The "Upgraded" Bubble Maker
-    void CreateBubble(string msg, Color bubbleColor, Color textColor, TextAlignmentOptions alignment)
+    GameObject CreateBubble(string msg, Color bubbleColor, Color textColor, TextAlignmentOptions alignment)
     {
-        // 1. Create the bubble object
         GameObject go = Instantiate(messagePrefab, chatContent);
-
-        // 2. Setup the Text (The words)
+        
         TMP_Text text = go.GetComponentInChildren<TMP_Text>();
         text.text = msg;
         text.color = textColor;
-        text.alignment = alignment; // Aligns text Left or Right
+        text.alignment = alignment;
 
-        // 3. Setup the Bubble (The background color)
-        // We look for the "Image" component which controls the sprite color
         Image bubbleImage = go.GetComponentInChildren<Image>();
         if (bubbleImage != null)
         {
             bubbleImage.color = bubbleColor;
         }
-        
-        // 4. Force Unity to redraw the layout so it fits perfectly
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(go.GetComponent<RectTransform>());
+        
+        return go; // Return the created bubble
+    }
+    // This function will be triggered by the InputField
+    public void OnInputSubmit(string text)
+    {
+        // 1. Check if the "Return" (Main Enter) or "KeypadEnter" was pressed
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            // 2. Call your existing message sending logic
+            SendChatMessage();
+            
+            // 3. Keep the cursor inside the text box so the player can type again immediately
+            playerInput.ActivateInputField(); 
+        }
     }
 }
