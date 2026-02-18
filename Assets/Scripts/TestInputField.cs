@@ -13,4 +13,7 @@ public class TestInputField : MonoBehaviour
     {
         
     }
+    public void DisplayText() {
+        
+    }
 }
