@@ -6,7 +6,7 @@
 // 4. Paste your API Key.
 
 // Change the class name here so it doesn't conflict with your real Secrets file
-public static class SecretsTemplate 
+public static class SecretsTemplate
 {
-    public const string GreenPTApiKey = "INSERT_KEY_HERE"; 
+    public const string GreenPTApiKey = "API KEY HERE"; 
 }
