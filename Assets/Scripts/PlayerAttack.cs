@@ -4,6 +4,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public Transform AttackPoint;
     public float attackRange = 2.5f;
+    public Animator anim;
     public LayerMask lionfishLayer;
     private PlayerMovement movement;
 
@@ -28,6 +29,7 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TryAttackKey();
+            anim.SetBool("isAttacking", true);
         }
     }
 
@@ -71,6 +73,13 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+    
+    public void EndAttack()
+    {
+        anim.SetBool("isAttacking", false);
+    }
+
+    // for development purposes, to visualize the attack range
     void OnDrawGizmosSelected()
     {
         if (AttackPoint == null) return;
