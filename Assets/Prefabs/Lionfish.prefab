@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4203354463090163918}
   - component: {fileID: 8613663959967781683}
   - component: {fileID: 3753473519784672940}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Lionfish
-  m_TagString: Untagged
+  m_TagString: Lionfish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

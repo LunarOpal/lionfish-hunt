@@ -28,8 +28,10 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            TryAttackKey();
-            anim.SetBool("isAttacking", true);
+            if (anim.GetBool("isAttacking") == false) {
+                //TryAttackKey(); called during animation play
+                anim.SetBool("isAttacking", true);
+            }
         }
     }
 
@@ -73,8 +75,8 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
-    
-    public void EndAttack()
+    // called during last frame of animation
+    void EndAttack()
     {
         anim.SetBool("isAttacking", false);
     }
