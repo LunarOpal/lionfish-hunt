@@ -21,7 +21,8 @@ public class LionfishSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        InvokeRepeating("SpawnLionfish", 1f, spawnInterval); // checks every 1 second if we need to spawn a lionfish
+        InvokeRepeating("SpawnLionfish", 2f, spawnInterval); // checks every 1 second if we need to spawn a lionfish
+        currentLionfishCount = GameObject.FindGameObjectsWithTag("Lionfish").Length;
     }
 
     void SpawnLionfish()
