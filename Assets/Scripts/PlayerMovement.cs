@@ -3,11 +3,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public int FacingDirection { get; private set; } = 1; // 1 for right, -1 for left
+    public Animator anim;
+    public float minX = -6f; // minimum x position
+    public float maxX = 6f; // maximum x position
+    public float minY = -4f; // minimum y position
+    public float maxY = 4f; // maximum y position
+
+
     private Rigidbody2D rb;
     private Vector2 movement;
-    public int FacingDirection { get; private set; } = 1; // 1 for right, -1 for left
-
-    public Animator anim;
 
     void Start()
     {
@@ -48,5 +53,14 @@ public class PlayerMovement : MonoBehaviour
             rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
         }
 
+    }
+
+    // make sure player does not move out of bounds
+    private void LateUpdate()
+    {
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        transform.position = pos;
     }
 }

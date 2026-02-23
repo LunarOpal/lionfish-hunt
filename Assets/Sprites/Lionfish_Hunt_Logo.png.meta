@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 69d68410610899e45a438932a965a488
+guid: e11c885048f4cfe4a96bfd63900684c0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8768041848901560463
-    second: Basket_0
+      213: 7074853227594761174
+    second: Lionfish_Hunt_Logo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Basket_0
+      name: Lionfish_Hunt_Logo_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 4
-        width: 226
-        height: 194
+        x: 0
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f8869834b975ea970800000000000000
-      internalID: 8768041848901560463
+      spriteID: 6d3cfccb68dee2260800000000000000
+      internalID: 7074853227594761174
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Basket_0: 8768041848901560463
+      Lionfish_Hunt_Logo_0: 7074853227594761174
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
