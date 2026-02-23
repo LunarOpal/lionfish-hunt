@@ -117,7 +117,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 183096557
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8898406367819308257, guid: 399af12ab8e0b624ab7bf3c4bbbbaeac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -207,6 +207,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
   anim: {fileID: 6876056977273200135}
+  minX: -7.5
+  maxX: 7.5
+  minY: -4
+  maxY: 4
 --- !u!114 &-7218344420972902972
 MonoBehaviour:
   m_ObjectHideFlags: 0
