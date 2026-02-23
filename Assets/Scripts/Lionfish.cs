@@ -9,6 +9,7 @@ public class Lionfish : MonoBehaviour
     public float speed = 2f;
     public int points = 1;
     public float breedProb = 0.3f;
+    public Animator anim;
 
     private float timer = 0f;
     private int swimDirection = 0;
@@ -121,6 +122,13 @@ public class Lionfish : MonoBehaviour
     }
 
     public void Die()
+    {
+        speed = 0f; // stop moving
+        anim.SetTrigger("Death");
+        //Destroy(gameObject); call this at end of death animation in animation
+    }
+
+    public void OnDestroy()
     {
         if (spawner != null)
         {

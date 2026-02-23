@@ -336,10 +336,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lionfish_3
       objectReference: {fileID: 0}
-    - target: {fileID: 2276430359383648078, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: spawner
       value: 
@@ -698,10 +694,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lionfish_5
       objectReference: {fileID: 0}
-    - target: {fileID: 2276430359383648078, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: spawner
       value: 
@@ -1037,10 +1029,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lionfish_2
       objectReference: {fileID: 0}
-    - target: {fileID: 2276430359383648078, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: spawner
       value: 
@@ -1355,10 +1343,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lionfish_4
       objectReference: {fileID: 0}
-    - target: {fileID: 2276430359383648078, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: spawner
       value: 
@@ -1662,10 +1646,6 @@ PrefabInstance:
     - target: {fileID: 2276430359383648078, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: m_Name
       value: Lionfish_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276430359383648078, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: spawner
