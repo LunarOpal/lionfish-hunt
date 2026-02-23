@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public UnityEngine.UI.Image environmentalFillImage; // timer bar
     public TextMeshProUGUI killText; // reference to the UI text element for displaying the lionfish kills
 
+    public CoralHealth coralBackground; // coral background object to change color based on environment health
 
     private float gameTime;
     private float environmentHP;
@@ -65,6 +66,9 @@ public class GameManager : MonoBehaviour
         {
             environmentHP = maxEnvironment - (currentFishNum * fishEnvironmentMultiplier);
         }
+
+        // update coral background color based on environment health
+        coralBackground.coralHealthCheck(maxEnvironment - (currentFishNum * fishEnvironmentMultiplier));
 
     }
 }
