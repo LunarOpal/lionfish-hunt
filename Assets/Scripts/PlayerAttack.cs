@@ -6,6 +6,10 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = 2.5f;
     public Animator anim;
     public LayerMask lionfishLayer;
+    public AudioClip stab;
+    public AudioClip stabHit;
+
+    private AudioSource audioSource;
     private PlayerMovement movement;
 
     void Awake()
@@ -15,7 +19,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -64,14 +68,20 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+
     void TryAttackKey()
     {
         Collider2D hitEnemy = Physics2D.OverlapCircle(AttackPoint.position, attackRange, lionfishLayer);
 
         if (hitEnemy != null)
         {
+            audioSource.PlayOneShot(stabHit);
             hitEnemy.GetComponent<Lionfish>().Die();
+        } else
+        {
+            audioSource.PlayOneShot(stab); // not hit
         }
+
 
     }
 
