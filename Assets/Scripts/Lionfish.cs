@@ -10,12 +10,14 @@ public class Lionfish : MonoBehaviour
     public int points = 1;
     public float breedProb = 0.3f;
     public Animator anim;
+    public AudioClip deathSound;
 
     private float timer = 0f;
     private int swimDirection = 0;
     private float swimDuration = 1f;
     private float swimTimer = 0f;
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
 
     public LionfishSpawner spawner; // has the total count of lionfish
 
@@ -23,6 +25,7 @@ public class Lionfish : MonoBehaviour
     {
         timer = Random.Range(0f, breedInterval - 1); // randomize initial breeding interval
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -124,6 +127,7 @@ public class Lionfish : MonoBehaviour
     public void Die()
     {
         speed = 0f; // stop moving
+        audioSource.PlayOneShot(deathSound);
         anim.SetTrigger("Death");
         //Destroy(gameObject); call this at end of death animation in animation
     }

@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
         // kill count updating is caused by lionfish spawner
         // update kill count text
-        killText.text = "Hunted: " + killCount.ToString();
+        killText.text = killCount.ToString();
 
         // environmental hp bar updating is also caused by lionfish spawner
         // update visual
