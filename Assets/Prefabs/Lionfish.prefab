@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4203354463090163918}
   - component: {fileID: 8613663959967781683}
   - component: {fileID: 3753473519784672940}
+  - component: {fileID: 7516094787273989330}
   m_Layer: 6
   m_Name: Lionfish
   m_TagString: Lionfish
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7838719830242650668, guid: 1f264395e01c24e4e819e0173be6ca8b, type: 3}
+  m_Sprite: {fileID: 7696983221461282945, guid: 15c186f69290ab949aed0f5f50981ac1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -146,4 +147,27 @@ MonoBehaviour:
   speed: 2
   points: 1
   breedProb: 0.3
-  spawner: {fileID: 2525454442115971432, guid: 89cca10b4b8cb74499cc1c783de8f43a, type: 3}
+  anim: {fileID: 7516094787273989330}
+  spawner: {fileID: 0}
+--- !u!95 &7516094787273989330
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2276430359383648078}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 356a1e2fa91123940bd6950caa0f81e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
