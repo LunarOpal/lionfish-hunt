@@ -24,7 +24,7 @@ public class CoralHealth : MonoBehaviour
     {
         if (spriteRenderer != null)
         {
-            if (health >= 80f)
+            if (health >= 70f)
             {
                 spriteRenderer.sprite = coral_healthy;
             }
