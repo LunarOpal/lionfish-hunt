@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,10 +14,14 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 movement;
+    private bool isAttacking = false;
+
+    private GameManager gameManager;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     void Update()
@@ -26,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
         // if not attacking animation, then can move/change direction
         // while attacking, refrain from changing direction
-        if (anim.GetBool("isAttacking") == false) {
+        if (isAttacking == false & gameManager.getGameEnd() == false) {
             
             //check facing direction
             if (movement.x > 0)
@@ -48,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (anim.GetBool("isAttacking") == false)
+        if (isAttacking == false)
         {
             rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
         }
@@ -62,5 +67,15 @@ public class PlayerMovement : MonoBehaviour
         pos.x = Mathf.Clamp(pos.x, minX, maxX);
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
         transform.position = pos;
+    }
+
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+
+    public void setIsAttacking(bool attackBool)
+    {
+        isAttacking = attackBool;
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,9 +16,23 @@ public class GameManager : MonoBehaviour
 
     public CoralHealth coralBackground; // coral background object to change color based on environment health
 
+    // all the results screen objects
+    public GameObject resultsScreen;
+    public GameObject NumberOfLionFishHunted;
+    public TextMeshProUGUI NumberOfLionFishHuntedNum;
+    public GameObject OceanHealth;
+    public TextMeshProUGUI OceanHealthPercentage;
+    public TextMeshProUGUI Blurb;
+    public GameObject NextButton;
+    public AudioClip resultsPopUp;
+    public AudioClip uiPopUp;
+
     private float gameTime;
     private float environmentHP;
     private int killCount = 0; // number of lionfish killed
+    
+    private AudioSource audioSource;
+    private bool gameEnd = false;
 
 
 
@@ -26,6 +41,13 @@ public class GameManager : MonoBehaviour
         gameTime = maxTime;
         environmentHP = startingEnvironment;
         environmentalFillImage.fillAmount = environmentHP/maxEnvironment;
+
+        // results screen
+        NumberOfLionFishHuntedNum.text = "";
+        OceanHealthPercentage.text = "";
+        Blurb.text = "";
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -39,15 +61,22 @@ public class GameManager : MonoBehaviour
             gameTime = Mathf.Clamp(gameTime, 0, maxTime); // makes sure number doesn't go below min or above max
             // update timer (oxygen) bar visual
             timerFillImage.fillAmount = gameTime / maxTime;
+            
+            // kill count updating is caused by lionfish spawner
+            // update kill count text
+            killText.text = killCount.ToString();
+
+            // environmental hp bar updating is also caused by lionfish spawner
+            // update visual
+            environmentalFillImage.fillAmount = environmentHP/maxEnvironment;
+        
+        
+        } else if (gameEnd == false)
+        {
+            endGame();
         }
 
-        // kill count updating is caused by lionfish spawner
-        // update kill count text
-        killText.text = killCount.ToString();
 
-        // environmental hp bar updating is also caused by lionfish spawner
-        // update visual
-        environmentalFillImage.fillAmount = environmentHP/maxEnvironment;
     }
 
     public void increaseKillCount()
@@ -70,4 +99,54 @@ public class GameManager : MonoBehaviour
         coralBackground.coralHealthCheck(maxEnvironment - (currentFishNum * fishEnvironmentMultiplier));
 
     }
+
+    public void endGame()
+    {
+        Time.timeScale = 0f;
+
+        StartCoroutine(ShowSequence());
+        gameEnd = true;
+
+    }
+
+    IEnumerator ShowSequence()
+    {
+        resultsScreen.SetActive(true);
+        audioSource.PlayOneShot(resultsPopUp);
+        
+        yield return new WaitForSecondsRealtime(1f);
+
+        NumberOfLionFishHuntedNum.text = killCount.ToString();
+        NumberOfLionFishHunted.SetActive(true);
+        audioSource.PlayOneShot(uiPopUp);
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        if (environmentHP < 0) 
+        {
+            OceanHealthPercentage.text = "0%";
+        } else
+        {
+            OceanHealthPercentage.text = ((environmentHP / maxEnvironment) * 100) .ToString() + "%";
+        }
+        OceanHealth.SetActive(true);
+        audioSource.PlayOneShot(uiPopUp);
+        
+        yield return new WaitForSecondsRealtime(1f);
+
+        Blurb.text = "The reefs are surviving not thriving. You made a good effort!";
+        audioSource.PlayOneShot(uiPopUp);
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        NextButton.SetActive(true);
+        //audioSource.PlayOneShot(uiPopUp);
+    }
+
+    public bool getGameEnd()
+    {
+        return gameEnd;
+    }
+
 }
+
