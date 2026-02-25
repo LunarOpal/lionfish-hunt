@@ -16,9 +16,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private bool isAttacking = false;
 
+    private GameManager gameManager;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     void Update()
@@ -28,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
         // if not attacking animation, then can move/change direction
         // while attacking, refrain from changing direction
-        if (isAttacking == false) {
+        if (isAttacking == false & gameManager.getGameEnd() == false) {
             
             //check facing direction
             if (movement.x > 0)
