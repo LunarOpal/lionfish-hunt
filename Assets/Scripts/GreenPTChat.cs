@@ -64,11 +64,18 @@ public class GreenPTChat : MonoBehaviour
     {
         // 1. Setup the data object
         RequestBody req = new RequestBody();
-        req.model = "green-l-raw"; // Check docs for model name (e.g., "mistral-small" or "greenpt-flash")
+        req.model = "green-l-raw";
         req.messages = new List<Message>();
 
-        // System prompt (The "Context")
-        req.messages.Add(new Message { role = "system", content = "You are an environmental expert regarding lionfish." });
+        // System prompt
+        string systemPrompt = 
+            "You are GreenPT, a marine biology AI assistant for a diver. Your goal: answer the user's query ideally with a fact related to the invasive lionfish. " +
+            "CRITICAL RULES: " +
+            "1. ABSOLUTELY NO MARKDOWN. You are strictly forbidden from using asterisks (*), hashtags (#), or any text formatting. Use pure plain text only. " +
+            "2. STRICT LENGTH LIMIT: Your entire response MUST be under 250 characters. " +
+            "3. Tone: Professional, urgent, and educational. Focus on the destructive impact of lionfish.";
+
+        req.messages.Add(new Message { role = "system", content = systemPrompt });
         
         // User prompt
         req.messages.Add(new Message { role = "user", content = prompt });
