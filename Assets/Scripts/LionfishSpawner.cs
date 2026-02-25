@@ -29,7 +29,7 @@ public class LionfishSpawner : MonoBehaviour
     {
         // lionfish breeding is handled by the lionfish themselves
         // this just ensures that there are at least a couple of lionfish in the game
-        Debug.Log("Current Lionfish Count: " + currentLionfishCount);
+        // Debug.Log("Current Lionfish Count: " + currentLionfishCount);
 
         if (currentLionfishCount < minLionfish)
         {
@@ -58,7 +58,7 @@ public class LionfishSpawner : MonoBehaviour
     public void DecreaseCount()
     {
         currentLionfishCount--;
-        Debug.Log("Decrease called\n" + System.Environment.StackTrace);
+        // Debug.Log("Decrease called\n" + System.Environment.StackTrace);
         gameManager.increaseKillCount();
 
         // updates the environmental meter based on current number of fish
