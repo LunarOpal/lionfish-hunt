@@ -509,6 +509,10 @@ PrefabInstance:
       propertyPath: spawner
       value: 
       objectReference: {fileID: 1064529463}
+    - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
+      propertyPath: breedProb
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8741420015249233824, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.35
@@ -965,6 +969,10 @@ PrefabInstance:
       propertyPath: spawner
       value: 
       objectReference: {fileID: 1064529463}
+    - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
+      propertyPath: breedProb
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8741420015249233824, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.06
@@ -1300,6 +1308,10 @@ PrefabInstance:
       propertyPath: spawner
       value: 
       objectReference: {fileID: 1064529463}
+    - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
+      propertyPath: breedProb
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8741420015249233824, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.92
@@ -1660,6 +1672,10 @@ PrefabInstance:
       propertyPath: spawner
       value: 
       objectReference: {fileID: 1064529463}
+    - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
+      propertyPath: breedProb
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8741420015249233824, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.5
@@ -2073,6 +2089,10 @@ PrefabInstance:
       propertyPath: spawner
       value: 
       objectReference: {fileID: 1064529463}
+    - target: {fileID: 3753473519784672940, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
+      propertyPath: breedProb
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8741420015249233824, guid: d4db7e647fb6dd44ea7fa4b384d9df91, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.55931

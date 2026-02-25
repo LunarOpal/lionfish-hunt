@@ -16,6 +16,7 @@ public class Lionfish : MonoBehaviour
     private int swimDirection = 0;
     private float swimDuration = 1f;
     private float swimTimer = 0f;
+    private bool isDead = false;
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
 
@@ -126,13 +127,19 @@ public class Lionfish : MonoBehaviour
 
     public void Die()
     {
+        if (isDead)
+        {
+            return;
+        }
+        isDead = true;
+
         speed = 0f; // stop moving
         audioSource.PlayOneShot(deathSound);
         anim.SetTrigger("Death");
-        //Destroy(gameObject); call this at end of death animation in animation
+        //Destroy(gameObject); call this at end of death animation in animation in FinishDeath()
     }
 
-    public void OnDestroy()
+    public void FinishDeath()
     {
         if (spawner != null)
         {

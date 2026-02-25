@@ -58,6 +58,7 @@ public class LionfishSpawner : MonoBehaviour
     public void DecreaseCount()
     {
         currentLionfishCount--;
+        Debug.Log("Decrease called\n" + System.Environment.StackTrace);
         gameManager.increaseKillCount();
 
         // updates the environmental meter based on current number of fish
