@@ -25,7 +25,7 @@ public class IntroManager : MonoBehaviour
     {
         "The Atlantic reefs are under attack. \n\nAn invasive species—the Lionfish—has arrived from the Indo-Pacific, with no natural predators to stop them.",
         "Equipped with venomous spines and an insatiable appetite, a single lionfish can reduce native fish populations by 79% in just five weeks.",
-        "As a volunteer diver, your mission is critical. Cull the invasive population and protect the biodiversity of our oceans.\n\n<b>The reef is counting on you.</b>"
+        "As a volunteer diver, your mission is critical. Cull the invasive population and protect the biodiversity of our oceans.\n\nThe reef is counting on you."
     };
 
     private int _currentIndex = 0;
