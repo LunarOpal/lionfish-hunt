@@ -11,6 +11,12 @@ public class MenuController : MonoBehaviour
     public void LoadGameScreen() {
         SceneManager.LoadScene("GameScene");
     }
+    public void LoadLearningScreen() {
+        SceneManager.LoadScene("LearningScene");
+    }
+    public void LoadEndScreen() {
+        SceneManager.LoadScene("EndScene");
+    }
 
     // Call this from the Title Screen "Play" button
     public void IncrementScene() {
