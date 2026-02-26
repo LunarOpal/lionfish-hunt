@@ -64,8 +64,18 @@ public class PlayerMovement : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(pos.x, minX, maxX);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        
+        // set to spotlight radius in tutorial
+        if (gameManager.getTutorialPhase())
+        {
+            pos.x = Mathf.Clamp(pos.x, -0.8f, 0.8f);
+            pos.y = Mathf.Clamp(pos.y, 0.8f, 2.4f);
+        } else
+        {
+            pos.x = Mathf.Clamp(pos.x, minX, maxX);
+            pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        }
+
         transform.position = pos;
     }
 

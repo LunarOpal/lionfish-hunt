@@ -83,4 +83,9 @@ public class LionfishSpawner : MonoBehaviour
     {
 
     }
+
+    public bool getTutorialPhase()
+    {
+        return gameManager.getTutorialPhase(); // I have no idea if this is best practice??
+    }
 }
