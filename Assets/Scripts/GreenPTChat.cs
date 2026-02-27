@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Text;
 
+// 1. [Preserve] prevents WebGL's aggressive IL2CPP compiler from deleting these classes
 [System.Serializable]
+[UnityEngine.Scripting.Preserve]
 public class Message
 {
     public string role;
@@ -14,6 +16,7 @@ public class Message
 }
 
 [System.Serializable]
+[UnityEngine.Scripting.Preserve]
 public class RequestBody
 {
     public string model;
@@ -21,12 +24,14 @@ public class RequestBody
 }
 
 [System.Serializable]
+[UnityEngine.Scripting.Preserve]
 public class ResponseRoot
 {
     public List<Choice> choices;
 }
 
 [System.Serializable]
+[UnityEngine.Scripting.Preserve]
 public class Choice
 {
     public Message message;
@@ -35,14 +40,20 @@ public class Choice
 public class GreenPTChat : MonoBehaviour
 {
     [Header("UI References")]
-    public TMP_InputField playerInput;
-    public Transform chatContent;
-    public GameObject messagePrefab;
+    [SerializeField] private TMP_InputField playerInput;
+    [SerializeField] private Transform chatContent;
+    [SerializeField] private GameObject messagePrefab;
 
     [Header("GreenPT Config")]
+    [Tooltip("Check this if building for WebGL to bypass CORS issues.")]
+    [SerializeField] private bool useCorsProxyForWebGL = true; 
+    
+    [Tooltip("Change this if the current proxy goes down during judging!")]
+    [SerializeField] private string proxyUrl = "https://api.codetabs.com/v1/proxy?quest=";
 
+    // Replaced Secrets.GreenPTApiKey with a placeholder. Ensure your Secrets class is accessible.
     private string apiKey = Secrets.GreenPTApiKey; 
-    private string apiUrl = "https://api.greenpt.ai/v1/chat/completions"; 
+    private string baseApiUrl = "https://api.greenpt.ai/v1/chat/completions"; 
 
     private GameObject currentLoadingBubble;
 
@@ -56,18 +67,17 @@ public class GreenPTChat : MonoBehaviour
 
         currentLoadingBubble = CreateBubble("GreenPT: Thinking...", new Color32(32, 178, 170, 150), Color.black, TextAlignmentOptions.MidlineLeft);
 
-        // Switch to the real API call now
         StartCoroutine(PostToGreenPT(userText));
     }
 
-    IEnumerator PostToGreenPT(string prompt)
+    private IEnumerator PostToGreenPT(string prompt)
     {
-        // 1. Setup the data object
-        RequestBody req = new RequestBody();
-        req.model = "green-l-raw";
-        req.messages = new List<Message>();
+        RequestBody req = new RequestBody
+        {
+            model = "green-l-raw",
+            messages = new List<Message>()
+        };
 
-        // System prompt
         string systemPrompt = 
             "You are GreenPT, a marine biology AI assistant for a diver. Your goal: answer the user's query ideally with a fact related to the invasive lionfish. " +
             "CRITICAL RULES: " +
@@ -76,49 +86,62 @@ public class GreenPTChat : MonoBehaviour
             "3. Tone: Professional, urgent, and educational. Focus on the destructive impact of lionfish.";
 
         req.messages.Add(new Message { role = "system", content = systemPrompt });
-        
-        // User prompt
         req.messages.Add(new Message { role = "user", content = prompt });
 
-        // 2. Convert to JSON
         string json = JsonUtility.ToJson(req);
 
-        // 3. Create Request
-        UnityWebRequest request = new UnityWebRequest(apiUrl, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        
-        // 4. Set Headers (Important for GreenPT/OpenAI style)
-        request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Authorization", "Bearer " + apiKey);
-
-        yield return request.SendWebRequest();
-
-        if (currentLoadingBubble != null)
+        // 2. CORS Proxy routing for WebGL environments
+        string requestUrl = baseApiUrl;
+        if (useCorsProxyForWebGL && Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            Destroy(currentLoadingBubble);
+            // FIX: Swapped to a variable proxy URL to allow hot-swapping in the editor.
+            // Using codetabs by default as it is often more tolerant of POST requests with Auth headers.
+            requestUrl = proxyUrl + baseApiUrl;
         }
 
-        if (request.result == UnityWebRequest.Result.Success)
+        // Hackathon Debug Tip: Press F12 in your browser on itch.io. 
+        // If this logs "{}" instead of your data, WebGL is stripping your JSON classes!
+        Debug.Log("GreenPT Payload: " + json);
+
+        using (UnityWebRequest request = new UnityWebRequest(requestUrl, "POST"))
         {
-            // Parse the response
-            ResponseRoot response = JsonUtility.FromJson<ResponseRoot>(request.downloadHandler.text);
-            if (response.choices != null && response.choices.Count > 0)
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + apiKey);
+
+            // Wait for the request to finish
+            yield return request.SendWebRequest();
+
+            if (currentLoadingBubble != null)
             {
-                string aiText = response.choices[0].message.content;
-                CreateBubble("GreenPT: " + aiText, new Color32(32, 178, 170, 255), Color.black, TextAlignmentOptions.MidlineLeft);
+                Destroy(currentLoadingBubble);
             }
-        }
-        else
-        {
-            Debug.LogError("Error: " + request.error + " | " + request.downloadHandler.text);
-            CreateBubble("Error: " + request.error, Color.red, Color.white, TextAlignmentOptions.MidlineLeft);
-        }
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                ResponseRoot response = JsonUtility.FromJson<ResponseRoot>(request.downloadHandler.text);
+                if (response != null && response.choices != null && response.choices.Count > 0)
+                {
+                    string aiText = response.choices[0].message.content;
+                    CreateBubble("GreenPT: " + aiText, new Color32(32, 178, 170, 255), Color.black, TextAlignmentOptions.MidlineLeft);
+                }
+                else
+                {
+                    CreateBubble("GreenPT: (No response data found)", Color.red, Color.white, TextAlignmentOptions.MidlineLeft);
+                }
+            }
+            else
+            {
+                Debug.LogError("API Error: " + request.error + " | " + request.downloadHandler.text);
+                CreateBubble("Connection Error: " + request.error, Color.red, Color.white, TextAlignmentOptions.MidlineLeft);
+            }
+        } // UnityWebRequest is automatically disposed here to prevent memory leaks
     }
 
-    // The "Upgraded" Bubble Maker
-    GameObject CreateBubble(string msg, Color bubbleColor, Color textColor, TextAlignmentOptions alignment)
+    private GameObject CreateBubble(string msg, Color bubbleColor, Color textColor, TextAlignmentOptions alignment)
     {
         GameObject go = Instantiate(messagePrefab, chatContent);
         
@@ -135,18 +158,14 @@ public class GreenPTChat : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(go.GetComponent<RectTransform>());
         
-        return go; // Return the created bubble
+        return go;
     }
-    // This function will be triggered by the InputField
+
     public void OnInputSubmit(string text)
     {
-        // 1. Check if the "Return" (Main Enter) or "KeypadEnter" was pressed
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            // 2. Call your existing message sending logic
             SendChatMessage();
-            
-            // 3. Keep the cursor inside the text box so the player can type again immediately
             playerInput.ActivateInputField(); 
         }
     }

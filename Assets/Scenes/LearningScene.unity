@@ -421,6 +421,8 @@ MonoBehaviour:
   playerInput: {fileID: 465666674}
   chatContent: {fileID: 1824974007}
   messagePrefab: {fileID: 1639761449757362427, guid: 653189c16a6594d4588478088a7140df, type: 3}
+  useCorsProxyForWebGL: 0
+  proxyUrl: https://api.codetabs.com/v1/proxy?quest=
 --- !u!4 &257743343
 Transform:
   m_ObjectHideFlags: 0
