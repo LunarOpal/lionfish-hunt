@@ -25,6 +25,11 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // don't allow attacking until the attack phase of the tutorial or after during gameplay
+        if (movement.getTutorialPhase() & movement.getCurrentStep() != 1)
+        {
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

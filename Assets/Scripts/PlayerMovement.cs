@@ -29,6 +29,11 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
+        if (gameManager.getTutorialPhase() & gameManager.getCurrentStep() > 1)
+        {
+            return;
+        }
+
         // if not attacking animation, then can move/change direction
         // while attacking, refrain from changing direction
         if (isAttacking == false & gameManager.getGameEnd() == false) {
@@ -53,7 +58,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isAttacking == false)
+        if (gameManager.getTutorialPhase() & gameManager.getCurrentStep() > 2)
+        {
+            return;
+        }
+        else if (isAttacking == false)
         {
             rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
         }
@@ -87,5 +96,15 @@ public class PlayerMovement : MonoBehaviour
     public void setIsAttacking(bool attackBool)
     {
         isAttacking = attackBool;
+    }
+
+    public bool getTutorialPhase()
+    {
+        return gameManager.getTutorialPhase();
+    }
+
+    public int getCurrentStep()
+    {
+        return gameManager.getCurrentStep();
     }
 }

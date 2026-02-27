@@ -175,9 +175,17 @@ public class GameManager : MonoBehaviour
         return gameEnd;
     }
 
+    // returns true/false on whether tutorial is active, affects movement of diver and lionfish
     public bool getTutorialPhase()
     {
         return tutorialPhase;
+    }
+
+    // returns phase of tutorial
+    // only able to move in parts 1 and 2, talking about movement and attacking
+    public int getCurrentStep()
+    {
+        return currentStep;
     }
 
 }
