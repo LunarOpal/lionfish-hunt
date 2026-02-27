@@ -46,14 +46,14 @@ public class GreenPTChat : MonoBehaviour
 
     [Header("GreenPT Config")]
     [Tooltip("Check this if building for WebGL to bypass CORS issues.")]
-    [SerializeField] private bool useCorsProxyForWebGL = true; 
+    [SerializeField] private bool useCorsProxyForWebGL = false; 
     
     [Tooltip("Change this if the current proxy goes down during judging!")]
     [SerializeField] private string proxyUrl = "https://api.codetabs.com/v1/proxy?quest=";
 
     // Replaced Secrets.GreenPTApiKey with a placeholder. Ensure your Secrets class is accessible.
     private string apiKey = Secrets.GreenPTApiKey; 
-    private string baseApiUrl = "https://api.greenpt.ai/v1/chat/completions"; 
+    private string baseApiUrl = "https://greenpt-proxy.onrender.com/greenpt/chat"; 
 
     private GameObject currentLoadingBubble;
 
