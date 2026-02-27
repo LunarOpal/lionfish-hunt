@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +15,10 @@ public class GameManager : MonoBehaviour
     public UnityEngine.UI.Image timerFillImage; // timer bar
     public UnityEngine.UI.Image environmentalFillImage; // timer bar
     public TextMeshProUGUI killText; // reference to the UI text element for displaying the lionfish kills
+    public Transform spotlight; // move this around during tutorial
+    public TutorialStep[] steps;
+    public TextMeshProUGUI tutorialText;
+    public TextMeshProUGUI nextIndicatorText;
 
     public CoralHealth coralBackground; // coral background object to change color based on environment health
 
@@ -32,6 +38,8 @@ public class GameManager : MonoBehaviour
     private int killCount = 0; // number of lionfish killed
     
     private AudioSource audioSource;
+    private bool tutorialPhase = true;
+    private int currentStep = 0; //phase of tutorial, at phase 7 the gameplay starts
     private bool gameEnd = false;
 
 
@@ -48,13 +56,32 @@ public class GameManager : MonoBehaviour
         Blurb.text = "";
 
         audioSource = GetComponent<AudioSource>();
+        spotlight.gameObject.SetActive(true);
+        tutorialText.gameObject.SetActive(true);
+        nextIndicatorText.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // decrement timer
-        if (gameTime > 0)
+        if (currentStep < steps.Length)
+        {
+            spotlight.position = steps[currentStep].target.position;
+            tutorialText.text = steps[currentStep].message;
+            if (Input.GetKeyDown(KeyCode.Space) | Input.GetMouseButtonDown(0))
+            {
+                currentStep++;
+            }
+        }
+        else if (tutorialPhase)
+        {
+            tutorialPhase = false;
+            spotlight.gameObject.SetActive(false);
+            tutorialText.gameObject.SetActive(false);
+            nextIndicatorText.gameObject.SetActive(false);
+        }
+        // decrement timer, start gameplay
+        else if (gameTime > 0)
         {
             gameTime -= Time.deltaTime;
 
@@ -146,6 +173,19 @@ public class GameManager : MonoBehaviour
     public bool getGameEnd()
     {
         return gameEnd;
+    }
+
+    // returns true/false on whether tutorial is active, affects movement of diver and lionfish
+    public bool getTutorialPhase()
+    {
+        return tutorialPhase;
+    }
+
+    // returns phase of tutorial
+    // only able to move in parts 1 and 2, talking about movement and attacking
+    public int getCurrentStep()
+    {
+        return currentStep;
     }
 
 }

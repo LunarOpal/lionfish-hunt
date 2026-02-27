@@ -31,6 +31,10 @@ public class Lionfish : MonoBehaviour
 
     void Update()
     {
+        if (spawner.getTutorialPhase())
+        {
+            return;
+        }
         // timer to breed new lionfish
         timer += Time.deltaTime;
 
@@ -120,8 +124,8 @@ public class Lionfish : MonoBehaviour
     // need to breed off screen
     Vector2 getRandomNearbyPosition()
     {
-        float offsetX = Random.Range(-1f, 1f);
-        float offsetY = Random.Range(-1f, 1f);
+        float offsetX = Random.Range(-0.8f, 0.8f);
+        float offsetY = Random.Range(2f, 3.6f);
         return new Vector2(transform.position.x + offsetX, transform.position.y + offsetY);
     }
 
