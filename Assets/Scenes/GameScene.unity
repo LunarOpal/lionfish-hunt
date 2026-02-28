@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a78923605695b468c6fcf320947d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  maxTime: 30
+  maxTime: 60
   maxEnvironment: 100
   startingEnvironment: 30
   fishEnvironmentMultiplier: 10
