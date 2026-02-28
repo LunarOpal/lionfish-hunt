@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a78923605695b468c6fcf320947d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  maxTime: 1
+  maxTime: 30
   maxEnvironment: 100
   startingEnvironment: 30
   fishEnvironmentMultiplier: 10
@@ -2426,7 +2426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3180,7 +3180,7 @@ Transform:
   m_GameObject: {fileID: 1834000924}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -200, y: 220, z: 0}
+  m_LocalPosition: {x: -220, y: 220, z: 0}
   m_LocalScale: {x: 7.959989, y: 7.959989, z: 1.5919977}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3240,7 +3240,7 @@ Transform:
   m_GameObject: {fileID: 1883145596}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -40, y: 220, z: 0}
+  m_LocalPosition: {x: 0, y: 220, z: 0}
   m_LocalScale: {x: 7.959989, y: 7.959989, z: 1.5919977}
   m_ConstrainProportionsScale: 0
   m_Children: []

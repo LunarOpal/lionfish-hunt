@@ -161,7 +161,19 @@ public class GameManager : MonoBehaviour
         
         yield return new WaitForSecondsRealtime(1f);
 
-        Blurb.text = "The reefs are surviving not thriving. You made a good effort!";
+        if (environmentHP == 0)
+        {
+            Blurb.text = "Another beautiful reef taken by the invaders... try again next time!";
+        } else if (environmentHP < 30)
+        {
+            Blurb.text = "The coral don't look so good... but keep on fighting the good fight!";
+        } else if (environmentHP < 70)
+        {
+            Blurb.text = "The reefs are surviving but not quite thriving. You made a great effort!";
+        } else
+        {
+            Blurb.text = "The ocean is colorful and healthy again. Awesome job!";
+        }
         audioSource.PlayOneShot(uiPopUp);
 
         yield return new WaitForSecondsRealtime(1f);
